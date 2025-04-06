@@ -1,14 +1,5 @@
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "builds": [
-    {
-      "src": "frontend/101440281_comp3133_assignment2/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "frontend/101440281_comp3133_assignment2/dist/101440281_comp3133_assignment2"
-      }
-    }
   ]
 }
