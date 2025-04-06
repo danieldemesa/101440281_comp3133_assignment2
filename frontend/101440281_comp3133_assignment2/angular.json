@@ -20,15 +20,21 @@
             "outputPath": "dist/101440281_comp3133_assignment2",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "favicon.ico",
+                "input": "src",
+                "output": "/"
               }
             ],
             "styles": [
@@ -38,6 +44,7 @@
           },
           "configurations": {
             "production": {
+              "outputHashing": "all",
               "budgets": [
                 {
                   "type": "initial",
@@ -49,13 +56,13 @@
                   "maximumWarning": "4kB",
                   "maximumError": "8kB"
                 }
-              ],
-              "outputHashing": "all"
+              ]
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
@@ -87,7 +94,8 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
