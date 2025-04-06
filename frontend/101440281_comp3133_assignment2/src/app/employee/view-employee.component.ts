@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { RouterModule } from '@angular/router'; // ✅ ADD THIS
 
 const GET_EMPLOYEE_BY_ID = gql`
   query GetEmployee($id: ID!) {
@@ -21,76 +22,71 @@ const GET_EMPLOYEE_BY_ID = gql`
 @Component({
   selector: 'app-view-employee',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule], // ✅ ADD RouterModule HERE
   template: `
-    <div class="view-container" *ngIf="employee; else loading">
-      <h2>{{ employee.firstName }} {{ employee.lastName }}</h2>
-      <img 
-        *ngIf="employee.profilePic" 
-        [src]="'http://localhost:5000/uploads/' + employee.profilePic" 
-        alt="Profile Picture" 
-        class="profile-image"
-      />
-      <div class="details">
-        <p><strong>Email:</strong> {{ employee.email }}</p>
-        <p><strong>Department:</strong> {{ employee.department }}</p>
-        <p><strong>Position:</strong> {{ employee.position }}</p>
-      </div>
-    </div>
+    <div class="container" *ngIf="employee">
+      <h2>View Employee</h2>
 
-    <ng-template #loading>
-      <p class="loading">Loading employee details...</p>
-    </ng-template>
+      <div class="employee-details">
+        <div class="info">
+          <p><strong>First Name:</strong> {{ employee.firstName }}</p>
+          <p><strong>Last Name:</strong> {{ employee.lastName }}</p>
+          <p><strong>Email:</strong> {{ employee.email }}</p>
+          <p><strong>Department:</strong> {{ employee.department }}</p>
+          <p><strong>Position:</strong> {{ employee.position }}</p>
+        </div>
+
+        <div class="photo" *ngIf="employee.profilePic">
+          <img [src]="'http://localhost:5000/uploads/' + employee.profilePic" alt="Profile Picture" />
+        </div>
+      </div>
+
+      <button class="btn-back" routerLink="/employees">← Back</button>
+    </div>
   `,
   styles: [`
-    .view-container {
-      max-width: 500px;
-      margin: 40px auto;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      background: #fff;
-      text-align: center;
-      font-family: 'Segoe UI', sans-serif;
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
     }
-    .profile-image {
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      margin-bottom: 20px;
-      object-fit: cover;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    .employee-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
     }
-    .details p {
-      margin: 8px 0;
-      font-size: 16px;
+    .info {
+      flex: 1;
     }
-    .loading {
-      text-align: center;
-      font-size: 18px;
-      color: #777;
-      margin-top: 60px;
+    .photo img {
+      max-width: 200px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .btn-back {
+      margin-top: 20px;
+      background: #007bff;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
     }
   `]
 })
-export class ViewEmployeeComponent {
+export class ViewEmployeeComponent implements OnInit {
   employee: any;
 
-  constructor(private route: ActivatedRoute, private apollo: Apollo) {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.fetchEmployee(id);
-  }
+  constructor(private route: ActivatedRoute, private apollo: Apollo) {}
 
-  fetchEmployee(id: string | null) {
-    if (!id) return;
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id') || '';
     this.apollo.watchQuery<any>({
       query: GET_EMPLOYEE_BY_ID,
       variables: { id }
-    }).valueChanges.subscribe({
-      next: ({ data }) => {
-        this.employee = data.getEmployee;
-      },
-      error: (err) => console.error('Error loading employee:', err)
+    }).valueChanges.subscribe(({ data }) => {
+      this.employee = data.getEmployee;
     });
   }
 }

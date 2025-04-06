@@ -5,13 +5,18 @@ import { EmployeeListComponent } from './pages/employee-list/employee-list.compo
 import { AddEmployeeComponent } from './pages/add-employee/add-employee.component';
 
 export const routes: Routes = [
+  // Default route redirects to login
   { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  // Auth routes
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+
+  // Employee routes
   { path: 'employees', component: EmployeeListComponent },
   { path: 'add-employee', component: AddEmployeeComponent },
 
-  // ✅ Standalone lazy-loaded view and update routes
+  // Lazy-loaded standalone routes
   {
     path: 'view-employee/:id',
     loadComponent: () =>
