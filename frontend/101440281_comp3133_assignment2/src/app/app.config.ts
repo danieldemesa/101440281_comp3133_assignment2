@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { routes } from './app.routes';
 
-import { createUploadLink } from 'apollo-upload-client'; // ✅ Clean import after downgrade
+import { createUploadLink } from 'apollo-upload-client';
 
 export const appConfig: ApplicationConfig = {
   providers: [

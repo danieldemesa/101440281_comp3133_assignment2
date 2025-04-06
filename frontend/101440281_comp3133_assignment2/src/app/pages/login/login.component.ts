@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { Router, RouterModule } from '@angular/router'; // ✅ Add RouterModule
+import { Router, RouterModule } from '@angular/router'; 
 
 const LOGIN_MUTATION = gql`
   mutation Login($email: String!, $password: String!) {
@@ -18,7 +18,7 @@ const LOGIN_MUTATION = gql`
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule], // ✅ Add RouterModule here
+  imports: [CommonModule, ReactiveFormsModule, RouterModule], 
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })

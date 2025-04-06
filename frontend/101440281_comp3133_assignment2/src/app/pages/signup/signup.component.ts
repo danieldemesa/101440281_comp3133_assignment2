@@ -40,14 +40,14 @@ export class SignupComponent {
     if (this.signupForm.valid) {
       const { email, password } = this.signupForm.value;
 
-      console.log('📤 Submitting signup:', { email, password }); // for debug
+      console.log('📤 Submitting signup:', { email, password }); 
 
       this.apollo.mutate({
         mutation: SIGNUP_MUTATION,
         variables: { email, password }
       }).subscribe({
         next: (res: any) => {
-          console.log('✅ Signup successful:', res); // for debug
+          console.log('✅ Signup successful:', res); 
           const token = res.data.signup.token;
           localStorage.setItem('token', token);
           this.router.navigate(['/login']);

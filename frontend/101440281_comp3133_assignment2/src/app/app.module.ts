@@ -24,6 +24,6 @@ export const appConfig: ApplicationConfig = {
       };
     }),
     provideAnimations(),
-    importProvidersFrom(ReactiveFormsModule) // ✅ Required for [formGroup]
+    importProvidersFrom(ReactiveFormsModule)
   ]
 };

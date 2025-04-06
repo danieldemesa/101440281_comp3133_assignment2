@@ -30,7 +30,7 @@ const employeeSchema = new mongoose.Schema({
   },
   profilePic: {
     type: String,
-    default: '' // This will store the filename or full path
+    default: '' 
   }
 });
 

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { RouterModule } from '@angular/router'; // ✅ ADD THIS
+import { RouterModule } from '@angular/router'; 
 
 const GET_EMPLOYEE_BY_ID = gql`
   query GetEmployee($id: ID!) {
@@ -22,7 +22,7 @@ const GET_EMPLOYEE_BY_ID = gql`
 @Component({
   selector: 'app-view-employee',
   standalone: true,
-  imports: [CommonModule, RouterModule], // ✅ ADD RouterModule HERE
+  imports: [CommonModule, RouterModule], 
   template: `
     <div class="container" *ngIf="employee">
       <h2>View Employee</h2>

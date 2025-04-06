@@ -44,7 +44,7 @@ const typeDefs = gql`
       email: String
       department: String
       position: String
-      profilePic: Upload   # ✅ ADD THIS LINE
+      profilePic: Upload   
     ): Employee
 
     deleteEmployee(id: ID!): String

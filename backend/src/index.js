@@ -12,16 +12,16 @@ const resolvers = require('./resolvers');
 async function startServer() {
   const app = express();
 
-  // 1. CORS should come first
+  
   app.use(cors());
 
-  // 2. File upload middleware BEFORE apollo-server-express handles anything
+  
   app.use(graphqlUploadExpress({ maxFileSize: 10_000_000, maxFiles: 1 }));
 
-  // 3. Serve static files (uploaded images)
+ 
   app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
-  // 4. Apollo Server setup
+  
   const server = new ApolloServer({
     typeDefs,
     resolvers
@@ -32,7 +32,7 @@ async function startServer() {
 
   const PORT = process.env.PORT || 5000;
 
-  // 5. Connect to MongoDB and start app
+  
   mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
