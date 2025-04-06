@@ -1,6 +1,8 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
+  scalar Upload
+
   type User {
     id: ID!
     email: String!
@@ -18,7 +20,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    getEmployees: [Employee]
+    employees: [Employee]
     getEmployee(id: ID!): Employee
   }
 
@@ -27,20 +29,22 @@ const typeDefs = gql`
     login(email: String!, password: String!): User
 
     addEmployee(
-      firstName: String!,
-      lastName: String!,
-      email: String!,
-      department: String,
+      firstName: String!
+      lastName: String!
+      email: String!
+      department: String
       position: String
+      profilePic: Upload
     ): Employee
 
     updateEmployee(
-      id: ID!,
-      firstName: String,
-      lastName: String,
-      email: String,
-      department: String,
+      id: ID!
+      firstName: String
+      lastName: String
+      email: String
+      department: String
       position: String
+      profilePic: Upload   # ✅ ADD THIS LINE
     ): Employee
 
     deleteEmployee(id: ID!): String
@@ -48,4 +52,3 @@ const typeDefs = gql`
 `;
 
 module.exports = typeDefs;
-

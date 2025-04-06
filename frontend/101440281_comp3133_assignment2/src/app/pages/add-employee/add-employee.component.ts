@@ -52,7 +52,6 @@ export class AddEmployeeComponent {
       email: ['', [Validators.required, Validators.email]],
       department: ['', Validators.required],
       position: ['', Validators.required],
-      profilePic: [null]
     });
   }
 
@@ -86,5 +85,9 @@ export class AddEmployeeComponent {
         }
       });
     }
+  }
+
+  onCancel() {
+    this.router.navigate(['/employees']);
   }
 }

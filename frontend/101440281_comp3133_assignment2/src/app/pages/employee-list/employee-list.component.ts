@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 const GET_EMPLOYEES = gql`
   query {
@@ -11,25 +13,24 @@ const GET_EMPLOYEES = gql`
       firstName
       lastName
       email
+      department
+      position
     }
-  }
-`;
-
-const DELETE_EMPLOYEE = gql`
-  mutation DeleteEmployee($id: ID!) {
-    deleteEmployee(id: $id)
   }
 `;
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss']
 })
 export class EmployeeListComponent {
   employees: any[] = [];
+  filteredEmployees: any[] = [];
+  searchDept: string = '';
+  searchPosition: string = '';
 
   constructor(private apollo: Apollo, private router: Router) {
     this.fetchEmployees();
@@ -37,39 +38,25 @@ export class EmployeeListComponent {
 
   fetchEmployees() {
     this.apollo.watchQuery<any>({
-      query: GET_EMPLOYEES,
-      fetchPolicy: 'network-only' // always get latest
+      query: GET_EMPLOYEES
     }).valueChanges.subscribe({
       next: ({ data }) => {
         this.employees = data.employees;
+        this.applyFilters();
       },
       error: (err) => console.error('Error fetching employees:', err)
     });
   }
 
-  deleteEmployee(id: string) {
-    if (confirm('Are you sure you want to delete this employee?')) {
-      this.apollo.mutate({
-        mutation: DELETE_EMPLOYEE,
-        variables: { id }
-      }).subscribe({
-        next: () => {
-          alert('🗑️ Employee deleted!');
-          this.fetchEmployees(); // refresh the list
-        },
-        error: (err) => {
-          console.error('Delete error:', err);
-          alert('❌ Failed to delete employee');
-        }
-      });
-    }
+  applyFilters() {
+    this.filteredEmployees = this.employees.filter(emp =>
+      emp.department.toLowerCase().includes(this.searchDept.toLowerCase()) &&
+      emp.position.toLowerCase().includes(this.searchPosition.toLowerCase())
+    );
   }
 
-  viewEmployee(id: string) {
-    this.router.navigate(['/view-employee', id]);
-  }
-
-  updateEmployee(id: string) {
-    this.router.navigate(['/update-employee', id]);
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 }

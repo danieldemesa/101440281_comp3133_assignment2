@@ -1,29 +1,35 @@
 <div class="container">
+  <div class="header">
     <h2>Employees List</h2>
-  
-    <button class="btn-add" routerLink="/add-employee">Add Employee</button>
-  
-    <table>
-      <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let emp of employees">
-          <td>{{ emp.firstName }}</td>
-          <td>{{ emp.lastName }}</td>
-          <td>{{ emp.email }}</td>
-          <td>
-            <button class="btn-update" (click)="updateEmployee(emp.id)">Update</button>
-            <button class="btn-delete" (click)="deleteEmployee(emp.id)">Delete</button>
-            <button class="btn-view" (click)="viewEmployee(emp.id)">View</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <button class="btn-logout" (click)="logout()">Logout</button>
   </div>
-  
+
+  <div class="filter-row">
+    <input type="text" placeholder="Search by Department" [(ngModel)]="searchDept" (input)="applyFilters()" />
+    <input type="text" placeholder="Search by Position" [(ngModel)]="searchPosition" (input)="applyFilters()" />
+    <button class="btn-add" routerLink="/add-employee">Add Employee</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let emp of filteredEmployees">
+        <td>{{ emp.firstName }}</td>
+        <td>{{ emp.lastName }}</td>
+        <td>{{ emp.email }}</td>
+        <td>
+          <button class="btn-update" [routerLink]="['/update-employee', emp.id]">Update</button>
+          <button class="btn-delete">Delete</button>
+          <button class="btn-view" [routerLink]="['/view-employee', emp.id]">View</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

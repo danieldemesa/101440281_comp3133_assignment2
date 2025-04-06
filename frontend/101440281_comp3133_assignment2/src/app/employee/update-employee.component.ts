@@ -41,7 +41,6 @@ const UPDATE_EMPLOYEE = gql`
       id
       firstName
       lastName
-      email
     }
   }
 `;
@@ -54,30 +53,46 @@ const UPDATE_EMPLOYEE = gql`
     <div class="container">
       <h2>Update Employee</h2>
 
-      <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="form-box">
+      <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="form-group">
           <label>First Name:</label>
           <input type="text" formControlName="firstName" />
+          <div class="error" *ngIf="employeeForm.get('firstName')?.touched && employeeForm.get('firstName')?.invalid">
+            First name is required.
+          </div>
         </div>
 
         <div class="form-group">
           <label>Last Name:</label>
           <input type="text" formControlName="lastName" />
+          <div class="error" *ngIf="employeeForm.get('lastName')?.touched && employeeForm.get('lastName')?.invalid">
+            Last name is required.
+          </div>
         </div>
 
         <div class="form-group">
           <label>Email:</label>
           <input type="email" formControlName="email" />
+          <div class="error" *ngIf="employeeForm.get('email')?.touched && employeeForm.get('email')?.invalid">
+            <span *ngIf="employeeForm.get('email')?.errors?.['required']">Email is required.</span>
+            <span *ngIf="employeeForm.get('email')?.errors?.['email']">Invalid email format.</span>
+          </div>
         </div>
 
         <div class="form-group">
           <label>Department:</label>
           <input type="text" formControlName="department" />
+          <div class="error" *ngIf="employeeForm.get('department')?.touched && employeeForm.get('department')?.invalid">
+            Department is required.
+          </div>
         </div>
 
         <div class="form-group">
           <label>Position:</label>
           <input type="text" formControlName="position" />
+          <div class="error" *ngIf="employeeForm.get('position')?.touched && employeeForm.get('position')?.invalid">
+            Position is required.
+          </div>
         </div>
 
         <div class="form-group">
@@ -85,7 +100,7 @@ const UPDATE_EMPLOYEE = gql`
           <input type="file" (change)="onFileChange($event)" />
           <div *ngIf="currentImage" class="preview">
             <p>Current:</p>
-            <img [src]="currentImage" alt="Profile Picture" />
+            <img [src]="currentImage" alt="Profile" />
           </div>
         </div>
 
