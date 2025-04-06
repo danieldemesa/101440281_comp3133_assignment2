@@ -3,33 +3,33 @@
   
     <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="form-box">
       <div class="form-group">
-        <label>First Name:</label>
-        <input type="text" formControlName="firstName" />
+        <label for="firstName">First Name:</label>
+        <input id="firstName" type="text" formControlName="firstName" />
       </div>
   
       <div class="form-group">
-        <label>Last Name:</label>
-        <input type="text" formControlName="lastName" />
+        <label for="lastName">Last Name:</label>
+        <input id="lastName" type="text" formControlName="lastName" />
       </div>
   
       <div class="form-group">
-        <label>Email:</label>
-        <input type="email" formControlName="email" />
+        <label for="email">Email:</label>
+        <input id="email" type="email" formControlName="email" />
       </div>
   
       <div class="form-group">
-        <label>Department:</label>
-        <input type="text" formControlName="department" />
+        <label for="department">Department:</label>
+        <input id="department" type="text" formControlName="department" />
       </div>
   
       <div class="form-group">
-        <label>Position:</label>
-        <input type="text" formControlName="position" />
+        <label for="position">Position:</label>
+        <input id="position" type="text" formControlName="position" />
       </div>
   
       <div class="form-group">
-        <label>Profile Picture:</label>
-        <input type="file" (change)="onFileChange($event)" />
+        <label for="profilePic">Profile Picture:</label>
+        <input id="profilePic" type="file" (change)="onFileChange($event)" />
       </div>
   
       <div class="button-row">

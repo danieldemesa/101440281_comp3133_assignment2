@@ -9,5 +9,17 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'employees', component: EmployeeListComponent },
-  { path: 'add-employee', component: AddEmployeeComponent }
+  { path: 'add-employee', component: AddEmployeeComponent },
+
+  // ✅ Standalone lazy-loaded view and update routes
+  {
+    path: 'view-employee/:id',
+    loadComponent: () =>
+      import('./employee/view-employee.component').then(m => m.ViewEmployeeComponent)
+  },
+  {
+    path: 'update-employee/:id',
+    loadComponent: () =>
+      import('./employee/update-employee.component').then(m => m.UpdateEmployeeComponent)
+  }
 ];

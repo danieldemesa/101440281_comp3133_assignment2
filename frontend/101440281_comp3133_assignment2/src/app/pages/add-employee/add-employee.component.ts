@@ -22,7 +22,7 @@ const ADD_EMPLOYEE = gql`
       position: $position
       profilePic: $profilePic
     ) {
-      _id
+      id
       firstName
       lastName
       email
@@ -52,20 +52,19 @@ export class AddEmployeeComponent {
       email: ['', [Validators.required, Validators.email]],
       department: ['', Validators.required],
       position: ['', Validators.required],
-      profilePic: [null] // To handle profile picture
+      profilePic: [null]
     });
   }
 
   onFileChange(event: any) {
-    const file = event.target.files[0];
-    this.selectedFile = file;
+    const file = event.target.files?.[0];
+    this.selectedFile = file || null;
   }
 
   onSubmit() {
     if (this.employeeForm.valid) {
       const { firstName, lastName, email, department, position } = this.employeeForm.value;
 
-      // Send the GraphQL mutation
       this.apollo.mutate({
         mutation: ADD_EMPLOYEE,
         variables: {
@@ -74,12 +73,12 @@ export class AddEmployeeComponent {
           email,
           department,
           position,
-          profilePic: this.selectedFile // Pass the selected file to the mutation
-        },
+          profilePic: this.selectedFile
+        }
       }).subscribe({
         next: () => {
           alert('✅ Employee added successfully!');
-          this.router.navigate(['/employees']); // Navigate to the employee list
+          this.router.navigate(['/employees']);
         },
         error: (err) => {
           console.error('Add employee error:', err);
